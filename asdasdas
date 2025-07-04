@@ -1,0 +1,63 @@
+// Hafıza Kartı Oyunu
+
+
+const icons = ['🍎', '🍌', '🍒', '🍇', '🍉', '🥭', '🍍', '🍓'];
+let cards = [...icons, ...icons];
+let gameBoard = document.getElementById("gameBoard");
+let tablo = [];
+
+
+function shuffle(array){
+    return cards.sort(() => Math.random() - 0.5);
+}
+
+function cardd(){
+
+    cards = shuffle(cards);
+    gameBoard.innerHTML = "";
+    cards.forEach((icon, index) => {
+        let card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.icon = icon;
+        card.dataset.index = index;
+        card.onclick = () => Cevap(card);
+        gameBoard.appendChild(card);
+
+        function Cevap(a){
+
+            if(!card.classList.contains("flipped")){
+                
+                card.textContent = icon;
+                card.classList.add("flipped");
+                tablo.push(a);
+            
+
+                if(tablo.length == 2){
+                    if(tablo[0].textContent == tablo[1].textContent){
+                        //tablo[0].style.pointerEvents = "none";
+                        //tablo[1].style.pointerEvents = "none";
+                        tablo = [];
+                        
+                    }
+                
+                else{
+                    setTimeout(() => {
+                        tablo[0].textContent = "";
+                        tablo[0].classList.remove("flipped");
+                        tablo[1].textContent = "";
+                        tablo[1].classList.remove("flipped");
+                        tablo = [];
+                    }, 500);
+                }
+            
+                
+            }
+        
+            
+        }
+    }});
+
+}
+
+cardd();
+shuffle();
